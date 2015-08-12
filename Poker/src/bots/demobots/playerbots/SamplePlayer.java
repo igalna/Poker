@@ -40,8 +40,7 @@ public class SamplePlayer implements Player {
 		if (gi.isPreFlop()) {
 			return strategy.getPreFlopAction(c1, c2, gi, seat);
 		}
-		double toCall = gi.getAmountToCall(seat);
-		return strategy.getPostFlopAction(toCall);
+		return strategy.getPostFlopAction(c1, c2, gi, seat);
 	}
 
 	@Override

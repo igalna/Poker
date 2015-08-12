@@ -4,6 +4,16 @@ import com.biotools.meerkat.Action;
 import com.biotools.meerkat.Card;
 import com.biotools.meerkat.GameInfo;
 
+/**
+ * 
+ * Aggressive strategy
+ * 
+ * Implements an aggressive strategy for players
+ * 
+ * 
+ * @author igalna
+ *
+ */
 public class Aggressive implements Strategy {
 
 	@Override
@@ -38,8 +48,8 @@ public class Aggressive implements Strategy {
 	}
 
 	@Override
-	public Action getPostFlopAction(double toCall) {
-		return Action.callAction(toCall);
+	public Action getPostFlopAction(Card c1, Card c2, GameInfo gi, int seat) {
+		return Action.callAction(gi.getAmountToCall(seat));
 	}
 
 }
