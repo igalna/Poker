@@ -1,0 +1,16 @@
+# All plug-ins must run through the following class:
+PLAYER_CLASS=PlugInOpponent
+
+# put your bot's full class name here:
+BOT_PLAYER_CLASS=bots.demobots.playerbots.SamplePlayer
+
+# Your Bot's name:
+PLAYER_NAME=SamplePlayer
+
+# Your bot engine name:
+AI_NAME=PlayerBot
+
+# Options for your Bot:
+DEBUG=true
+
+STRATEGY=bots.demobots.playerbots.strategies.Aggressive
