@@ -1,4 +1,6 @@
-package bots.demobots;
+package bots.demobots.playerbots;
+
+import bots.demobots.playerbots.strategies.Strategy;
 
 import com.biotools.meerkat.Action;
 import com.biotools.meerkat.Card;
@@ -16,6 +18,7 @@ public class SamplePlayer implements Player {
 				 c2;
 	private GameInfo gi;
 	private Preferences playerPrefs;
+	private Strategy strategy;
 
 	public SamplePlayer() {
 	}
@@ -35,40 +38,10 @@ public class SamplePlayer implements Player {
 	@Override
 	public Action getAction() {
 		if (gi.isPreFlop()) {
-			return getPreFlopAction();
+			return strategy.getPreFlopAction(c1, c2, gi, seat);
 		}
 		double toCall = gi.getAmountToCall(seat);
-		return Action.callAction(toCall);
-	}
-
-	private Action getPreFlopAction() {
-		double toCall = gi.getAmountToCall(seat);
-		
-		// if you have pocket pairs, raise.
-		if (c1.getRank() == c2.getRank()) {
-			if (gi.getNumRaises() < 2) {
-				return Action.raiseAction(gi);
-			}
-			if (gi.getNumRaises() < 3) {
-				return Action.callAction(toCall);
-			}
-		}
-		
-		// raise if both hole cards are bigger than 10
-		if (c1.getRank() > Card.TEN && c2.getRank() > Card.TEN) {
-			if (gi.getNumRaises() < 2) {
-				return Action.raiseAction(gi);
-			}
-			return Action.callAction(toCall);
-		}
-		
-		// raise if both hole cards are within range of a straight
-		if (Math.abs(c1.getRank() - c2.getRank()) < 4) {
-			return Action.raiseAction(gi);
-		}
-		
-		
-		return Action.checkOrFoldAction(toCall);
+		return strategy.getPostFlopAction(toCall);
 	}
 
 	@Override
@@ -103,7 +76,17 @@ public class SamplePlayer implements Player {
 	@Override
 	public void init(Preferences playerPrefs) {
 		this.playerPrefs = playerPrefs;
-
+		
+		try {
+			this.strategy = (Strategy) Class.forName(playerPrefs.getPreference("STRATEGY")).newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
