@@ -17,13 +17,6 @@ public class SamplePlayer implements Player {
 	private GameInfo gi;
 	private Preferences playerPrefs;
 
-	public static void main(String[] args) {
-		Card a = new Card(1, Card.DIAMONDS);
-		Card b = new Card(4, Card.SPADES);
-		
-		System.out.println(Math.abs(a.getRank() - b.getRank()) < 4);
-	}
-
 	public SamplePlayer() {
 	}
 	
