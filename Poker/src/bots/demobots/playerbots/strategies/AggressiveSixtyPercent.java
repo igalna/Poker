@@ -1,8 +1,18 @@
 package bots.demobots.playerbots.strategies;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import bots.demobots.playerbots.utilities.CardConverter;
+
 import com.biotools.meerkat.Action;
 import com.biotools.meerkat.Card;
 import com.biotools.meerkat.GameInfo;
+import com.biotools.meerkat.Hand;
+
+import common.handeval.klaatu.FastEval;
+import common.handeval.klaatu.PartialStageFastEval;
+import common.handeval.stevebrecher.*;
 
 /**
  * 
@@ -15,8 +25,8 @@ import com.biotools.meerkat.GameInfo;
  *
  */
 
-public class AggressiveSixtyPercent implements Strategy {
-
+public class AggressiveSixtyPercent implements Strategy {	
+	
 	@Override
 	public Action getPreFlopAction(Card c1, Card c2, GameInfo gi, int seat) {
 		
@@ -58,7 +68,33 @@ public class AggressiveSixtyPercent implements Strategy {
 
 	@Override
 	public Action getPostFlopAction(Card c1, Card c2, GameInfo gi, int seat) {
+		
+		Integer cardOneIndex = FastEval.encode(c1.getRank(), CardConverter.convertCards(c1.getSuit()));
+		Integer cardTwoIndex = FastEval.encode(c2.getRank(), CardConverter.convertCards(c2.getSuit()));
+		
+		Hand hand = gi.getBoard();
+		Integer[] boardCards = new Integer[hand.size()];
+		
+		List<Integer> deckOfCardIndexes = new ArrayList<Integer>();
+		for (int i = 0; i < 52; i++) {
+			deckOfCardIndexes.add(Integer.valueOf(i));
+		}
+		deckOfCardIndexes.remove(cardOneIndex);
+		deckOfCardIndexes.remove(cardTwoIndex);
+		
+		for (int x = 0; x < hand.size(); x++) {
+			Card card = hand.getCard(x + 1);
+			boardCards[x] = FastEval.encode(card.getRank(), CardConverter.convertCards(card.getSuit()));
+			deckOfCardIndexes.remove(boardCards[x]);
+		}
+		
+		
+		
+		
+		
+		
 		return Action.callAction(gi);
+		
 	}
 
 }
