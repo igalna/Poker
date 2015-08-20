@@ -13,4 +13,5 @@ AI_NAME=PlayerBot
 # Options for your Bot:
 DEBUG=true
 
-STRATEGY=bots.demobots.playerbots.strategies.Aggressive
+PREFLOP=bots.demobots.playerbots.strategies.preflop.AggressiveSixtyPercent
+POSTFLOP=bots.demobots.playerbots.strategies.postflop.PostFlopHandStrength
