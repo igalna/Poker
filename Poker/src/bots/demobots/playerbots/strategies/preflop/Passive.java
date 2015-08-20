@@ -1,4 +1,4 @@
-package bots.demobots.playerbots.strategies;
+package bots.demobots.playerbots.strategies.preflop;
 
 import com.biotools.meerkat.Action;
 import com.biotools.meerkat.Card;
@@ -7,7 +7,7 @@ import com.biotools.meerkat.GameInfo;
 public class Passive implements Strategy {
 
 	@Override
-	public Action getPreFlopAction(Card c1, Card c2, GameInfo gi, int seat) {
+	public Action getAction(Card c1, Card c2, GameInfo gi, int seat) {
 		
 		double toCall = gi.getAmountToCall(seat);
 		
@@ -30,10 +30,4 @@ public class Passive implements Strategy {
 		return Action.checkOrFoldAction(toCall);
 		
 	}
-
-	@Override
-	public Action getPostFlopAction(Card c1, Card c2, GameInfo gi, int seat) {
-		return Action.callAction(gi.getAmountToCall(seat));
-	}
-
 }

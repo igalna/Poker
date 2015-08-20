@@ -1,4 +1,4 @@
-package bots.demobots.playerbots.strategies;
+package bots.demobots.playerbots.strategies.preflop;
 
 import com.biotools.meerkat.Action;
 import com.biotools.meerkat.Card;
@@ -17,21 +17,11 @@ import com.biotools.meerkat.GameInfo;
 public class Raiser implements Strategy {
 
 	@Override
-	public Action getPreFlopAction(Card c1, Card c2, GameInfo gi, int seat) {
+	public Action getAction(Card c1, Card c2, GameInfo gi, int seat) {
 		if (gi.getNumRaises() < 2) {
 			return Action.raiseAction(gi);
 		}
 		
 		return Action.callAction(gi);
 	}
-
-	@Override
-	public Action getPostFlopAction(Card c1, Card c2, GameInfo gi, int seat) {
-		if (gi.getNumRaises() < 2) {
-			return Action.raiseAction(gi);
-		}
-		
-		return Action.callAction(gi);
-	}
-
 }

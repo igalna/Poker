@@ -1,23 +1,13 @@
-package bots.demobots.playerbots.strategies;
+package bots.demobots.playerbots.strategies.preflop;
 
 import com.biotools.meerkat.Action;
 import com.biotools.meerkat.Card;
 import com.biotools.meerkat.GameInfo;
 
-/**
- * 
- * Same strategy as the Aggressive, but has an extra bluffing condition.
- * 
- * Some percentage of the time it will call regardless of it's hand
- * 
- * @author igalna
- *
- */
-
 public class AggressiveBluffer implements Strategy {
 
 	@Override
-	public Action getPreFlopAction(Card c1, Card c2, GameInfo gi, int seat) {
+	public Action getAction(Card c1, Card c2, GameInfo gi, int seat) {
 		
 		double tocall = gi.getAmountToCall(seat);
 		
@@ -49,10 +39,5 @@ public class AggressiveBluffer implements Strategy {
 		}
 		
 		return Action.checkOrFoldAction(tocall);
-	}
-	
-	@Override
-	public Action getPostFlopAction(Card c1, Card c2, GameInfo gi, int seat) {
-		return Action.callAction(gi.getAmountToCall(seat));
 	}
 }

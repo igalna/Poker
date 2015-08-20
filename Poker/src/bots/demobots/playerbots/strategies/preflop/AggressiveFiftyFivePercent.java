@@ -1,4 +1,4 @@
-package bots.demobots.playerbots.strategies;
+package bots.demobots.playerbots.strategies.preflop;
 
 import com.biotools.meerkat.Action;
 import com.biotools.meerkat.Card;
@@ -18,7 +18,7 @@ import com.biotools.meerkat.GameInfo;
 public class AggressiveFiftyFivePercent implements Strategy {
 
 	@Override
-	public Action getPreFlopAction(Card c1, Card c2, GameInfo gi, int seat) {
+	public Action getAction(Card c1, Card c2, GameInfo gi, int seat) {
 		
 		// if player has pocket pairs and pairs are 5 or greater, raise
 		if (c1.getRank() == c2.getRank()) {
@@ -55,10 +55,4 @@ public class AggressiveFiftyFivePercent implements Strategy {
 		
 		return Action.checkOrFoldAction(gi);
 	}
-
-	@Override
-	public Action getPostFlopAction(Card c1, Card c2, GameInfo gi, int seat) {
-		return Action.callAction(gi);
-	}
-
 }

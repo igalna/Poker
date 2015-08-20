@@ -1,6 +1,6 @@
 package bots.demobots.playerbots;
 
-import bots.demobots.playerbots.strategies.Strategy;
+import bots.demobots.playerbots.strategies.preflop.Strategy;
 
 import com.biotools.meerkat.Action;
 import com.biotools.meerkat.Card;
@@ -18,7 +18,8 @@ public class SamplePlayer implements Player {
 				 c2;
 	private GameInfo gi;
 	private Preferences playerPrefs;
-	private Strategy strategy;
+	private Strategy preFlopStrategy;
+	private Strategy postFlopStrategy;
 
 	public SamplePlayer() {
 	}
@@ -38,9 +39,9 @@ public class SamplePlayer implements Player {
 	@Override
 	public Action getAction() {
 		if (gi.isPreFlop()) {
-			return strategy.getPreFlopAction(c1, c2, gi, seat);
+			return preFlopStrategy.getAction(c1, c2, gi, seat);
 		}
-		return strategy.getPostFlopAction(c1, c2, gi, seat);
+		return postFlopStrategy.getAction(c1, c2, gi, seat);
 	}
 
 	@Override
@@ -77,7 +78,8 @@ public class SamplePlayer implements Player {
 		this.playerPrefs = playerPrefs;
 		
 		try {
-			this.strategy = (Strategy) Class.forName(playerPrefs.getPreference("STRATEGY")).newInstance();
+			this.preFlopStrategy = (Strategy) Class.forName(playerPrefs.getPreference("PREFLOP")).newInstance();
+			this.postFlopStrategy = (Strategy) Class.forName(playerPrefs.getPreference("POSTFLOP")).newInstance();
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
