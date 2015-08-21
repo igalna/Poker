@@ -15,9 +15,12 @@ import common.handeval.klaatu.FastEval;
 
 public class PostFlopHandStrength implements Strategy {
 
+	private GameInfo gi;
+	
 	@Override
 	public Action getAction(Card c1, Card c2, GameInfo gi, int seat) {
-			
+		this.gi = gi;
+		
 		Integer cardOneIndex = FastEval.encode(c1.getRank(), CardConverter.convertCards(c1.getSuit()));
 		Integer cardTwoIndex = FastEval.encode(c2.getRank(), CardConverter.convertCards(c2.getSuit()));
 		
@@ -39,6 +42,12 @@ public class PostFlopHandStrength implements Strategy {
 		
 		Integer ourHandStrength = evaluateHand(boardCards, cardOneIndex, cardTwoIndex);
 		
+		return calculateOpponentStrength(deckOfCardIndexes, ourHandStrength,
+				boardCards);
+	}
+
+	private Action calculateOpponentStrength(List<Integer> deckOfCardIndexes,
+			Integer ourHandStrength, Integer[] boardCards) {
 		int opponentHasStrongerHand = 0;
 		int opponentHasSameHand = 0;
 		int opponentHasWorseHand = 0;
@@ -65,7 +74,7 @@ public class PostFlopHandStrength implements Strategy {
 			return Action.raiseAction(gi);
 		else
 			return Action.callAction(gi);
-}
+	}
 
 	
 	private int evaluateHand(Integer[] boardCards, Integer firstEncodedCard, Integer secondEncodedCard) {
